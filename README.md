@@ -1,73 +1,80 @@
-# CRUK Node.js Recruitment Assignment
+# CRUK Backend Assignment
 
-**Note - for the Python version of this exercise please click [[HERE](https://github.com/CRUKorg/cruk-backend-assignment/tree/python-version)]**
+## AWS CDK v2 Lambda Function Donation API
 
-### Functional Requirements
+Technology Used: Node.js, Typescript, AWS Lambda, DynamoDB
 
-Build a service in Node.js that can be deployed to AWS which exposes an API and can be consumed from any client. 
+Install node modules and AWS CLI 
 
-This service should check how many donations a user has made and send them a special thank you message (e.g. via SNS) if they make 2 or more donations. 
+```bash
+npm install
+```
 
-### Output Package Requirements
+For AWS CLI installation use this link [[HERE](https://awscli.amazonaws.com/AWSCLIV2.pkg)]
 
-The solution has to be provided as a Github repository including full commit history.
+After Installation, configure your AWS Credentials using below command. This command will set your AWS ACCOUNT ID and REGION.
 
-Please follow the frequent commit practice so that your local repository indicates reasonable milestones of your implementation.
+```bash
+aws configure
+```
 
-The repository MUST contain:
+Then create .env file and add this ENV Variables in it.
 
-- Source code
-    - It should be buildable/viewable.
-    - It must be written in Typescript.
-    - In case you need to use external libraries, please add them.
-- Infrastructure as Code (We use the AWS CDK and encourage you to use this also, but we will accept the use of Cloudformation or Terraform if you feel more comfortable with these technologies). Please refrain from using the Serverless Framework for this task.
-- Adequate tests.
-- Any installation and deployment instructions for apps and components.
-- README file with URL for testing the service online and a brief explanation on the scalability strategy.
+```bash
+TABLE_NAME
+```
 
-### Rules
+## Generating CloudFormation templates with CDK Synth
 
-If you do not complete the test please indicate how you would intend to finalise it in the README. 
+Next, we are going to generate and print the CloudFormation equivalent of the CDK stack.
 
-The team is looking to see how you approach a problem with a broad spec which could have a number of different solutions and then explaining your approach? Keep the implementation simple, but make sure you have automated tests, logging (structured logs with JSON), and include information in the README about how you'll scale the solution to thousands of users, how you'd approach logging & monitoring at scale so that you can actually debug the system as it increases in complexity.
+In other words, we're going to synthesize a CloudFormation template, based on the stack we've written in ``lib/recruitment-nodejs-test-stack.ts``
 
-We are not expecting the solution to be deployed, but we expect you to understand the process and best practices around the deployment process. It’s enough if you could provide to our engineers clear and easy instructions on how to deploy your application.
+To do that we have to use the synth command.
 
-### FAQ's
+```bash 
+cdk synth
+```
 
-*Any client - what are the clients?*
 
-A client is a consumer of the API (e.g. web app, another backend service, a mobile app, etc). In this case "Any client" means for us, the API can and should be implemented independently of who/what is going to consume it.
+```bash 
+cdk bootstrap
+```
 
-*Does this sit behind an API Gateway?*
 
-Whilst this is not strictly required, it’s just one of various solutions on AWS for exposing your API
+## Deploying our CloudFormation Stack
 
-*How is authentication performed?*
+At this point our template has been generated and stored in the ``cdk.out`` directory. We're ready to deploy our CloudFormation stack.
 
-We are not looking at the implementation of the authentication in the code challenge.
+Run the deploy command:
 
-*Will the API receives a token in the header (JWT with authentication service defined)?*
+```bash 
+cdk deploy
+```
 
-Not necessarily, as per the answer above the authentication is not required for this task.
+Now let's run our API.
 
-*Will only certain roles be able to call the API (eg, AWS IAM Permissions with AWS API Gateway)?*
+```bash
+URL: https://97v0ogsu8g.execute-api.eu-west-2.amazonaws.com/prod/donations
+Method: POST
+Parameter: 
+{
+  "email": "test@gmail.com",
+  "name": "test",
+  "mobile": "7878787878",
+  "donationAmount": 10
+}
+```
 
-Again, no authorisation or permissions are expected to be set for the coding challenge. We can discuss these things during the F2F interview.
 
-*Will I need to persist donations data in a database?*
+## Test AWS CDK Lambda function (Unit Test)
 
-Most candidates have used an in-memory store which saves them time to provision and deploy machines/databases. If you want to use a specific data store we don’t have any objection.
+I also implemented test cases for this assignments. I have used JEST for unit testing.
 
-*Is there a standardised/preferred method of logging?*
+To run unit tests, use this command:
 
-We don’t expect the coding challenge to be production-ready and ship logs anywhere but having basic error handling is considered a minimum requirement. You will definitely get extra points if you handle and log successfully edge-cases and critical paths (e.g. fatal errors).
+```bash
+npm test
+```
 
-*In terms of deploying to AWS, should I include a build pipeline or can that be done manually?*
-
-Do it manually, it's a one-time thing
-
-*Can we implement this using AWS Lambda?*
-
-Absolutely! show us your AWS chops
-
+Thank you and I hope you will like it!
