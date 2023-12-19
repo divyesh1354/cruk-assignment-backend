@@ -2,7 +2,7 @@
 
 ## AWS CDK v2 Lambda Function Donation API
 
-Technology Used: Node.js, Typescript, AWS Lambda, DynamoDB
+Technology Used: AWS CDK, Node.js, Typescript
 
 Install node modules and AWS CLI 
 
