@@ -57,6 +57,7 @@ Now let's run our API.
 ```bash
 URL: https://97v0ogsu8g.execute-api.eu-west-2.amazonaws.com/prod/donations
 Method: POST
+Header: Content-Type: application/json
 Parameter: 
 {
   "email": "test@gmail.com",
